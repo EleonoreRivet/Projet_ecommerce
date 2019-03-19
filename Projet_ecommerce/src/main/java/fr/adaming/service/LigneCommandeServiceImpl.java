@@ -26,8 +26,6 @@ public class LigneCommandeServiceImpl implements ILigneCommandeService{
 
 	@Override
 	public LigneCommande ajoutProduit(Produit p, int qte) {
-		p.setQuantite(qte);
-		p.setPrix(p.getPrix()*qte);
 		return lcDao.ajoutProduit(p, qte);
 	}
 

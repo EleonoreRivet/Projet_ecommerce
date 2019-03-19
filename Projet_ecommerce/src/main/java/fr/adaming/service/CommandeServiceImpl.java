@@ -29,6 +29,7 @@ public class CommandeServiceImpl implements ICommandeService{
 
 	@Override
 	public Commande enregistrerCom(Panier pan, Client c, Adresse a) {
+		c.setAdresse(a);
 		return comDao.enregistrerCom(pan, c, a);
 	} 
 	

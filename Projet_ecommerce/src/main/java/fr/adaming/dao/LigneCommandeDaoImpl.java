@@ -25,17 +25,17 @@ public class LigneCommandeDaoImpl implements ILigneCommandeDao{
 	@Override
 	public LigneCommande ajoutProduit(Produit p, int qte) {
 		// Récupérer le bus
-				Session s = sf.getCurrentSession();
+		Session s = sf.getCurrentSession();
 				
 		//instanciation d'une nouvelle ligne de commande
 		LigneCommande lc=new LigneCommande();
 		
-		//ajout du produit
+//		ajout du produit
 		lc.setProduit(p);	
-		lc.setQuantite(qte);
+    	lc.setQuantite(qte);
 		
-		//calcul du prix
-		lc.setPrix(p.getPrix() * qte);
+//		calcul du prix
+	    lc.setPrix(p.getPrix() * qte);
 		
 		s.save(lc);
 		

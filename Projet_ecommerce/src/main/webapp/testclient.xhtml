@@ -63,15 +63,15 @@
             <h:panelGrid columns="1" style="width:100%">
                 <h:graphicImage value="#{p.img}" style="width:50%"/>
  
-               <b><h:outputText value="#{p.designation}" /></b>
+               <h:outputText value="#{p.designation}" />
                  <h:outputText value="#{p.description}" />
                  <h:outputText value="#{p.prix} €" />
                  
                  <p:spinner id="basic" value="#{panMB.quantite}" />
                  <p:commandLink value="Ajouter au panier"
 						action="#{panMB.ajoutProPan}" styleClass="bouton">
-						<f:setPropertyActionListener value="#{p.id}"
-								target="#{panMB.produit.id}" />
+						<f:setPropertyActionListener value="#{p}"
+								target="#{panMB.produit}" />
 						</p:commandLink>
                  
         

@@ -53,7 +53,6 @@ public class PanierManagedBean implements Serializable {
 		this.produit = new Produit();
 		this.listeLico= new ArrayList<LigneCommande>();
 		this.liCo = new LigneCommande();
-		this.prix = 0; 
 		liCo.setProduit(produit);
 		listeLico.add(liCo);
 		panier.setListelico(listeLico);
@@ -161,15 +160,6 @@ public class PanierManagedBean implements Serializable {
 		maSession.setAttribute("lsession", listeLico);
 	}
 	
-	private int exists(Produit produit) {
-		for (int i = 0; i < this.listeLico.size(); i++) {
-			if (this.listeLico.get(i).getProduit().getId() == produit.getId()) {
-				return i;
-			}
-		}
-		return -1;
-	}
-
 	public String ajoutProPan(){
 	//	this.liCo = liService.ajoutProduit(produit, quantite);
 //		this.liCo = listeCo.get(produit.getId());
@@ -189,20 +179,21 @@ public class PanierManagedBean implements Serializable {
 //			if(liCo == null){
 //				LigneCommande lcOut = new LigneCommande();
 				liCo = liService.ajoutProduit(produit, quantite);
+				this.prix=produit.getPrix()*quantite;
+				liCo.setPrix(this.prix);
+				liCo.setQuantite(quantite);
 //				lcOut.setProduit(produit);
 //				lcOut.setQuantite(quantite);
 //				lcOut.setPrix(produit.getPrix()*quantite);
 //				listeCo.put(produit.getId(), lcOut);
 				
 				if(liCo.getIdLigne()!=0) { 
-					liCo.setPrix(produit.getPrix()*quantite);
+					
 					//Récup de la nouvelle liste
 					this.listeLico.add(liCo);
 					
 					//Mettre à jour la liste dans la session
-					maSession.setAttribute("lsession", listeLico);
-					
-					
+					maSession.setAttribute("lsession", listeLico);			
 			       
 			        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Le produit a été ajouté"));
 				}
