@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+<h:head>
+<title>Panier</title>
+</h:head>
+<h:body>
+<!-- CSS -->
+ 	<h:outputStylesheet library="css" name="monStyle.css"/>
+ 	
+ 	<!-- HEADER -->
+ 	
+ 	<ui:insert name="header"> 
+<ui:include src="/header.xhtml"/>
+</ui:insert>
+<br/><br/>
+
+
+
+<div class="ui-grid ui-grid-responsive">
+<div class="ui-grid-col-3 ui-g-12 ui-md-6 ui-lg-2">
+</div>
+ <!-- CENTRE -->
+  <div class="ui-grid-col-6 ui-g-12 ui-md-6 ui-lg-9">
+<br/>
+<h:form>
+  <p:breadCrumb>
+    <p:menuitem value="Categories" url="testclient.xhtml" />
+
+    <p:menuitem value="Panier" url="panier.xhtml" />
+ 
+</p:breadCrumb>
+</h:form>
+<br/>
+<h1>Votre panier</h1>
+     <p:messages />
+					<h:form>
+				<p:dataTable var="li" value="#{sessionScope.lsession}" id="idTab">
+					<p:column headerText="ID">
+						<h:outputText value="#{li.produit.id}" />
+					</p:column>
+
+					<p:column headerText="Photo">
+						<h:graphicImage value="#{li.produit.img}" style="width:50%"/>
+					</p:column>
+
+					<p:column headerText="Designation">
+						<h:outputText value="#{li.produit.designation}" />
+					</p:column>
+
+					<p:column headerText="Description">
+						<h:outputText value="#{li.produit.description}" />
+					</p:column>
+
+					<p:column headerText="Catégorie">
+						<h:outputText value="#{li.produit.categorie.nom}" />
+					</p:column>
+
+					<p:column headerText="Prix">
+						<h:outputText value="#{li.produit.prix * li.quantite}" />
+					</p:column>
+
+					<p:column headerText="Quantité">
+						<h:outputText value="#{li.quantite}" />
+					</p:column>
+
+					<p:column headerText="Opérations">
+					<p:commandLink value="Supprimer" action="#{panMB.supprPanier}" update="idTab">
+					<f:setPropertyActionListener value="#{li.produit.id}"
+						target="#{panMB.produit.id}" />
+				</p:commandLink>
+					</p:column>
+				</p:dataTable>
+		<br></br>
+		
+	</h:form>
+	
+	
+	</div></div>
+</h:body>
+</html>

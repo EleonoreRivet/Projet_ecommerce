@@ -1,33 +1,39 @@
 package fr.adaming.dao;
 
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import fr.adaming.model.Administrateur;
 
-@Stateless
+@Repository
 public class AdministrateurDaoImpl implements IAdministrateurDao {
 
-	@PersistenceContext(unitName = "PU_proj")
+	@Autowired
+	private SessionFactory sf;
 
-	private EntityManager em;
-
+	// Le setter pour l'injection de dépendance
+	public void setSf(SessionFactory sf) {
+		this.sf = sf;
+	}
+	
 	@Override
 	public Administrateur existe(Administrateur aIn) {
-		String req = "SELECT a FROM Administrateur as a WHERE a.username=:pUser AND a.mdp=:pMdp";
+		// Récupérer le bus (session de hibernate)
+		Session s=sf.getCurrentSession(); 
+				
+		//Requete HQL
+		String req = "FROM Administrateur as a WHERE a.username=:pUser AND a.mdp=:pMdp";
 
-		Query query = em.createQuery(req);
+		Query query = s.createQuery(req);
 
 		query.setParameter("pUser", aIn.getUsername());
 		query.setParameter("pMdp", aIn.getMdp());
-		try {
-			return (Administrateur) query.getSingleResult();
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		return null;
+
+		return (Administrateur) query.uniqueResult();
 	}
 
 }

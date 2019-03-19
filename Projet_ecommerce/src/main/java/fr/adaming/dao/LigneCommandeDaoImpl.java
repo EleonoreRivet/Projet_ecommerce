@@ -2,23 +2,31 @@ package fr.adaming.dao;
 
 import java.util.List;
 
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-
 import org.apache.commons.codec.binary.Base64;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import fr.adaming.model.LigneCommande;
 import fr.adaming.model.Produit;
 
-@Stateless
+@Repository
 public class LigneCommandeDaoImpl implements ILigneCommandeDao{
-	@PersistenceContext(name="PU_proj")
-	private EntityManager em;
+	@Autowired
+	private SessionFactory sf;
+
+	// Le setter pour l'injection de dépendance
+	public void setSf(SessionFactory sf) {
+		this.sf = sf;
+	}
 
 	@Override
 	public LigneCommande ajoutProduit(Produit p, int qte) {
+		// Récupérer le bus
+				Session s = sf.getCurrentSession();
+				
 		//instanciation d'une nouvelle ligne de commande
 		LigneCommande lc=new LigneCommande();
 		
@@ -29,18 +37,21 @@ public class LigneCommandeDaoImpl implements ILigneCommandeDao{
 		//calcul du prix
 		lc.setPrix(p.getPrix() * qte);
 		
-		em.persist(lc);
+		s.save(lc);
 		
 		return lc;
 	}
 	
 	public int supprProduit(Produit p){
-		// Requête JPQL
+		// Récupérer le bus
+		Session s = sf.getCurrentSession();
+		
+		// Requête HQL
 
 				String req = "DELETE FROM LigneCommande as l WHERE l.produit.id=:pId";
 				
 				//Récupérer un objet de type Query
-				Query query=em.createQuery(req);		
+				Query query=s.createQuery(req);		
 				
 				//Passage des paramètres
 				query.setParameter("pId", p.getId());
@@ -50,13 +61,16 @@ public class LigneCommandeDaoImpl implements ILigneCommandeDao{
 
 	@Override
 	public List<LigneCommande> getListeCo() {
-			// Requête JPQL
-			String req="SELECT l FROM LigneCommande as l"; 
+		// Récupérer le bus
+		Session s = sf.getCurrentSession();
+		
+		// Requête HQL
+			String req="FROM LigneCommande as l"; 
 			
 			//Récupérer un objet de type Query
-			Query query=em.createQuery(req);
+			Query query=s.createQuery(req);
 
-			List<LigneCommande> listeLico = query.getResultList();
+			List<LigneCommande> listeLico = query.list();
 			
 			for(LigneCommande l:listeLico){
 				l.getProduit().setImg("data:image/png;base64,"+Base64.encodeBase64String(l.getProduit().getPhoto()));
@@ -67,16 +81,19 @@ public class LigneCommandeDaoImpl implements ILigneCommandeDao{
 		}
 	
 	public LigneCommande getLigneCoByPro(Produit p){
-		// Requête JPQL
-		String req="SELECT l FROM LigneCommande as l WHERE l.produit.id=:pIdp"; 
+		// Récupérer le bus
+		Session s = sf.getCurrentSession();
+		
+		// Requête HQL
+		String req="FROM LigneCommande as l WHERE l.produit.id=:pIdp"; 
 		
 		//Récupérer un objet de type Query
-		Query query=em.createQuery(req);		
+		Query query=s.createQuery(req);		
 		
 		//Passage des paramètres
 		query.setParameter("pIdp", p.getId());
 		
-		LigneCommande lOut= (LigneCommande) query.getSingleResult();
+		LigneCommande lOut= (LigneCommande) query.uniqueResult();
 		
 		return lOut;
 	}

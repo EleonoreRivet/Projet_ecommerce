@@ -2,81 +2,95 @@ package fr.adaming.dao;
 
 import java.util.List;
 
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-
 import org.apache.commons.codec.binary.Base64;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import fr.adaming.model.Categorie;
-import fr.adaming.model.Produit;
 
-@Stateless
-public class CategorieDaoImpl implements ICategorieDao{
-	@PersistenceContext(name="PU_proj") 
-	private  EntityManager em;
+
+@Repository
+public class CategorieDaoImpl implements ICategorieDao {
+	@Autowired
+	private SessionFactory sf;
+
+	// Le setter pour l'injection de dépendance
+	public void setSf(SessionFactory sf) {
+		this.sf = sf;
+	}
 
 	@Override
 	public Categorie ajoutCat(Categorie c) {
-		em.persist(c);
+		// Récupérer le bus
+		Session s = sf.getCurrentSession();
+		s.save(c);
 		return c;
 	}
 
 	@Override
 	public int supprCat(Categorie c) {
-		// Requête JPQL
+		Session s = sf.getCurrentSession();
+
+		// Requête HQL
 		String req = "DELETE FROM Categorie as c WHERE c.id=:pId";
-		
-		//Récupérer un objet de type Query
-		Query query=em.createQuery(req);		
-		
-		//Passage des paramètres
+
+		// Récupérer un objet de type Query
+		Query query = s.createQuery(req);
+
+		// Passage des paramètres
 		query.setParameter("pId", c.getId());
-		
+
 		return query.executeUpdate();
 	}
 
 	@Override
 	public int modifCat(Categorie c) {
-		// Requête JPQL
-		
+		Session s = sf.getCurrentSession();
+
+		// Requête HQL
+
 		String req = "UPDATE Categorie as c SET c.nom=:pNom, c.description=:pDesc WHERE c.id=:pId";
-		
-		//Récupérer un objet de type Query
-		Query query=em.createQuery(req);		
-		
-		//Passage des paramètres
+
+		// Récupérer un objet de type Query
+		Query query = s.createQuery(req);
+
+		// Passage des paramètres
 		query.setParameter("pId", c.getId());
 		query.setParameter("pNom", c.getNom());
 		query.setParameter("pDesc", c.getDescription());
-		
+
 		return query.executeUpdate();
 	}
 
 	@Override
 	public List<Categorie> recCat() {
-		// Requête JPQL
-		String req="SELECT c FROM Categorie as c"; 
-		
-		//Récupérer un objet de type Query
-		Query query=em.createQuery(req);
-		
-		List<Categorie> listeCat = query.getResultList();
+		Session s = sf.getCurrentSession();
 
-		for(Categorie c:listeCat){
-			c.setImg("data:image/png;base64,"+Base64.encodeBase64String(c.getPhoto()));
+		// Requête HQL
+		String req = "FROM Categorie as c";
+
+		// Récupérer un objet de type Query
+		Query query = s.createQuery(req);
+
+		List<Categorie> listeCat = query.list();
+
+		for (Categorie c : listeCat) {
+			c.setImg("data:image/png;base64," + Base64.encodeBase64String(c.getPhoto()));
 		}
-		
+
 		return listeCat;
 	}
 
 	@Override
 	public Categorie recCatById(Categorie c) {
-		Categorie cOut = em.find(Categorie.class, c.getId());
-		cOut.setImg("data:image/png;base64,"+Base64.encodeBase64String(cOut.getPhoto()));
+		Session s = sf.getCurrentSession();
+
+		Categorie cOut = (Categorie) s.get(Categorie.class, c.getId());
+		cOut.setImg("data:image/png;base64," + Base64.encodeBase64String(cOut.getPhoto()));
 		return cOut;
 	}
-	
-	
+
 }

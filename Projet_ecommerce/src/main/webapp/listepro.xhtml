@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+	<title>Facelet Produits</title>
+</h:head>
+
+<h:body>
+
+<!-- CSS -->
+ 	<h:outputStylesheet library="css" name="monStyle.css"/>
+ 	
+	<!-- HEADER -->
+ 	
+ 	<ui:insert name="header"> 
+<ui:include src="/header.xhtml"/>
+</ui:insert>
+<br/><br/>
+
+
+<!-- BAR MENU -->
+<div class="ui-grid ui-grid-responsive">
+   
+<div class="ui-grid-col-3 ui-g-12 ui-md-6 ui-lg-3">
+<div style="margin-left:10px">
+<ui:insert name="menuBar"> 
+<ui:include src="/menu.xhtml"/>
+</ui:insert>
+</div>
+	 </div>
+ <!-- CENTRE -->
+  <div class="ui-grid-col-9 ui-g-12 ui-md-9 ui-lg-9">
+<img src="https://www.animaatjes.nl/plaatjes/b/bomen/animaatjes-bomen-94872.gif" style="width:100px;margin-bottom:-85px;"/>
+<h1>Liste des produits</h1>
+     <p:messages />
+	<h:form>
+											<p:confirmDialog global="true" showEffect="fade"
+								hideEffect="explode">
+								<p:commandButton value="Oui" styleClass="ui-confirmdialog-yes"
+									icon="ui-icon-check" />
+								<p:commandButton value="Non" styleClass="ui-confirmdialog-no"
+									icon="ui-icon-close" />
+							</p:confirmDialog>
+					<p:dataTable var="p" value="#{sessionScope.pSession}" id="idTab" reflow="true">
+					<p:column headerText="ID">
+						<h:outputText value="#{p.id}" />
+					</p:column>
+
+					<p:column headerText="Photo">
+						<h:graphicImage value="#{p.img}" style="width:150px"/>
+					</p:column>
+
+					<p:column headerText="Designation">
+						<h:outputText value="#{p.designation}" />
+					</p:column>
+
+					<p:column headerText="Description">
+						<h:outputText value="#{p.description}" />
+					</p:column>
+
+					<p:column headerText="Catégorie">
+						<h:outputText value="#{p.categorie.nom}" />
+					</p:column>
+
+					<p:column headerText="Prix">
+						<h:outputText value="#{p.prix}" />
+					</p:column>
+
+					<p:column headerText="Quantité">
+						<h:outputText value="#{p.quantite}" />
+					</p:column>
+
+
+			<p:column headerText="Opérations">
+							<p:commandLink action="#{pMB.supprPro}">
+				<h:graphicImage library="images" name="Close.png" />
+				<p:confirm header="Confirmation" message="Etes-vous sûr ?" />
+					<f:setPropertyActionListener value="#{p.id}"
+						target="#{pMB.produit.id}" />
+				</p:commandLink> | 
+				<p:commandLink action="modifpro">
+				<h:graphicImage library="images" name="Info.png" />
+					<f:setPropertyActionListener value="#{p}"
+						target="#{pMB.produit}" />
+				</p:commandLink> 
+			</p:column>
+		</p:dataTable>
+	</h:form>
+
+
+
+			<!-- Fin Centre -->
+	    </div>
+	    
+	    </div>
+
+
+
+</h:body>
+</html>

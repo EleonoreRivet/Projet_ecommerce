@@ -7,23 +7,19 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
 import fr.adaming.dao.ILigneCommandeDao;
-import fr.adaming.model.Adresse;
 import fr.adaming.model.Client;
-import fr.adaming.model.Commande;
 import fr.adaming.model.LigneCommande;
 import fr.adaming.model.Panier;
 import fr.adaming.model.Produit;
-import fr.adaming.service.ICommandeService;
+import fr.adaming.service.ILigneCommandeService;
 import fr.adaming.service.IPanierService;
 import fr.adaming.service.IProduitService;
 
@@ -32,12 +28,12 @@ import fr.adaming.service.IProduitService;
 public class PanierManagedBean implements Serializable {
 
 	//Transformation de l'association UML en Java
-	@EJB
-	ILigneCommandeDao liService;
-	@EJB
+	@ManagedProperty(value="#{licoService}") 
+	ILigneCommandeService liService;
+	@ManagedProperty(value="#{panService}") 
 	IPanierService panService; 
-	@EJB
-	IProduitService pService;
+	@ManagedProperty(value="#{proService}") 
+	IProduitService proService;
 	
 	// Déclaration des attributs
 	private Client client; 
@@ -130,6 +126,8 @@ public class PanierManagedBean implements Serializable {
 	public void setClient(Client client) {
 		this.client = client;
 	}
+	
+	
 
 //	@PostConstruct Cette annotation sert à dire que la méthode doit être exécutée après l'instanciation de l'objet
 //	public void init(){
@@ -137,6 +135,18 @@ public class PanierManagedBean implements Serializable {
 //	    maSession.setAttribute("clientSession",listeLico);
 //	}
 	
+	public void setLiService(ILigneCommandeService liService) {
+		this.liService = liService;
+	}
+
+	public void setPanService(IPanierService panService) {
+		this.panService = panService;
+	}
+
+	public void setProService(IProduitService proService) {
+		this.proService = proService;
+	}
+
 	public Map<Integer, LigneCommande> getListeCo() {
 		return listeCo;
 	}
@@ -187,9 +197,8 @@ public class PanierManagedBean implements Serializable {
 				if(liCo.getIdLigne()!=0) { 
 					liCo.setPrix(produit.getPrix()*quantite);
 					//Récup de la nouvelle liste
-					this.listeLico= liService.getListeCo();
+					this.listeLico.add(liCo);
 					
-					listeLico.add(liCo);
 					//Mettre à jour la liste dans la session
 					maSession.setAttribute("lsession", listeLico);
 					

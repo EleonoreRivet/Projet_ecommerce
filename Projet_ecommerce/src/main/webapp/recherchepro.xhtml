@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	
+<h:head>
+<title>Recherche Produit</title>
+</h:head>
+<h:body>
+<!-- CSS -->
+ 	<h:outputStylesheet library="css" name="monStyle.css"/>
+ 	
+	<!-- HEADER -->
+ 	
+ 	<ui:insert name="header"> 
+<ui:include src="/header.xhtml"/>
+</ui:insert>
+<br/><br/>
+
+
+<!-- BAR MENU -->
+<div class="ui-grid ui-grid-responsive">
+   
+<div class="ui-grid-col-3 ui-g-12 ui-md-6 ui-lg-3">
+<div style="margin-left:10px">
+<ui:insert name="menuBar"> 
+<ui:include src="/menu.xhtml"/>
+</ui:insert>
+</div>
+	 </div>
+ <!-- CENTRE -->
+  <div class="ui-grid-col-6 ui-g-12 ui-md-6 ui-lg-6">
+<h1>Rechercher un produit</h1>
+
+<div class="box_resum">
+     <p:messages />
+<h:form id="idForm">
+<h:panelGrid  columns="3" styleClass="panelGridCenter">
+<!-- Recherche par ID -->
+	     
+        <p:selectOneMenu id="produit" value="#{pMB.produit.id}" style="width:125px">
+            <f:selectItem itemLabel="Selectionner un produit" itemValue="" />
+           <f:selectItems value="#{sessionScope.pSession}" var="p" itemValue="#{p.id}" itemLabel="#{p.id}. #{p.designation}"/>
+        </p:selectOneMenu>
+        <h:commandButton value="Rechercher" action="#{pMB.recProById}"></h:commandButton>
+	
+</h:panelGrid>
+</h:form>
+</div>
+<br/>
+<h1 style="color:red;text-align:center"><h:outputText value="Produit recherché" rendered="#{pMB.indice}"/></h1>
+<p:dataTable var="p" value="#{pMB.produit}" rendered="#{pMB.indice}" reflow="true">
+						<p:column headerText="ID">
+						<h:outputText value="#{p.id}" />
+					</p:column>
+
+					<p:column headerText="Photo">
+						<h:graphicImage value="#{p.img}" style="width:150px"/>
+					</p:column>
+
+					<p:column headerText="Designation">
+						<h:outputText value="#{p.designation}" />
+					</p:column>
+
+					<p:column headerText="Description">
+						<h:outputText value="#{p.description}" />
+					</p:column>
+
+					<p:column headerText="Catégorie">
+						<h:outputText value="#{p.categorie.nom}" />
+					</p:column>
+
+					<p:column headerText="Prix">
+						<h:outputText value="#{p.prix}" />
+					</p:column>
+
+					<p:column headerText="Quantité">
+						<h:outputText value="#{p.quantite}" />
+					</p:column>
+</p:dataTable>
+
+	<!-- Fin Centre -->
+	    </div>
+	    
+	    </div>
+	
+</h:body>
+</html>

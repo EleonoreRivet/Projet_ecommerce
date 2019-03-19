@@ -4,12 +4,11 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
 
 import fr.adaming.model.Administrateur;
 import fr.adaming.model.Categorie;
@@ -23,12 +22,12 @@ import fr.adaming.service.IProduitService;
 public class AministrateurManagedBean implements Serializable {
 	
 	//Transformation de l'association UML en Java
-	@EJB
-	private IAdministrateurService aService;
-	@EJB
-	private IProduitService pService; 
-	@EJB
-	private ICategorieService cService; 
+	@ManagedProperty(value="#{adminService}") 
+	private IAdministrateurService adminService;
+	@ManagedProperty(value="#{proService}") 
+	private IProduitService proService; 
+	@ManagedProperty(value="#{catService}") 
+	private ICategorieService catService;
 
 	// Déclaration des attributs
 	private Administrateur administrateur;
@@ -69,20 +68,34 @@ public class AministrateurManagedBean implements Serializable {
 		this.filteredPro = filteredPro;
 	}
 
+	
+	
+	public void setAdminService(IAdministrateurService adminService) {
+		this.adminService = adminService;
+	}
+
+	public void setProService(IProduitService proService) {
+		this.proService = proService;
+	}
+
+	public void setCatService(ICategorieService catService) {
+		this.catService = catService;
+	}
+
 	@PostConstruct //Cette annotation sert à dire que la méthode doit être exécutée après l'instanciation de l'objet
 	public void init(){
-		this.filteredPro=pService.recPro();
-		this.listePro=pService.recPro();
+		this.filteredPro=proService.recPro();
+		this.listePro=proService.recPro();
 	}
 
 	// Méthodes métiers
 	public String seConnecter() {
-		Administrateur aOut = aService.existe(administrateur);
+		Administrateur aOut = adminService.existe(administrateur);
 
 		if (aOut != null) {
 			//Récupérer la liste des Etudiants du formateur
-			List<Produit> listePro =pService.recPro();
-			List<Categorie> listeCat =cService.recCat();
+			List<Produit> listePro =proService.recPro();
+			List<Categorie> listeCat =catService.recCat();
 			
 			//Mettre les listes dans la session
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("pSession", listePro);
@@ -100,7 +113,7 @@ public class AministrateurManagedBean implements Serializable {
 	}
 
 	public String seDeconnecter() {
-		Administrateur aOut = aService.existe(administrateur);
+		Administrateur aOut = adminService.existe(administrateur);
 
 		if (aOut != null) {
 			FacesContext.getCurrentInstance().getExternalContext().invalidateSession();

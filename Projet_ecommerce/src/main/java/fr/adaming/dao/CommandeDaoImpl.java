@@ -4,25 +4,34 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import fr.adaming.model.Adresse;
 import fr.adaming.model.Client;
 import fr.adaming.model.Commande;
 import fr.adaming.model.Panier;
 
-@Stateless
+@Repository
 public class CommandeDaoImpl implements ICommandeDao{
-	@PersistenceContext(name="PU_proj") 
-	private  EntityManager em;
+	@Autowired
+	private SessionFactory sf;
+
+	// Le setter pour l'injection de dépendance
+	public void setSf(SessionFactory sf) {
+		this.sf = sf;
+	}
 
 	@Override
 	public Commande enregistrerCom(Panier pan, Client c, Adresse a) {
+		// Récupérer le bus
+				Session s = sf.getCurrentSession();
+				
 		// Enregistrer le client
 		c.setAdresse(a);
-		em.persist(c);
+		s.save(c);
 		
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
@@ -31,7 +40,7 @@ public class CommandeDaoImpl implements ICommandeDao{
 		com.setDate(date);
 		com.setClient(c);
 		com.setListelico(pan.getListelico());
-		em.persist(com);
+		s.save(com);
 		
 		return com;
 	}

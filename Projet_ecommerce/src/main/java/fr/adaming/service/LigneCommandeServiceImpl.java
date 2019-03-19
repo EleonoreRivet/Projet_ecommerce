@@ -2,21 +2,32 @@ package fr.adaming.service;
 
 import java.util.List;
 
-import javax.ejb.EJB;
-import javax.ejb.Stateful;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import fr.adaming.dao.ILigneCommandeDao;
 import fr.adaming.model.LigneCommande;
 import fr.adaming.model.Produit;
 
-@Stateful
+@Service("licoService")
+@Transactional
 public class LigneCommandeServiceImpl implements ILigneCommandeService{
 	
-	@EJB
+	//Transfo de l'asso UML en JAVA
+	@Autowired
 	ILigneCommandeDao lcDao;
+	
+	
+	//Setter
+	public void setLcDao(ILigneCommandeDao lcDao) {
+		this.lcDao = lcDao;
+	}
 
 	@Override
 	public LigneCommande ajoutProduit(Produit p, int qte) {
+		p.setQuantite(qte);
+		p.setPrix(p.getPrix()*qte);
 		return lcDao.ajoutProduit(p, qte);
 	}
 

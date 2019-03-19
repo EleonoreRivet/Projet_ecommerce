@@ -1,16 +1,17 @@
 package fr.adaming.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.ejb.Stateful;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import fr.adaming.model.LigneCommande;
 import fr.adaming.model.Produit;
 
-@Stateful
+@Service("panService")
+@Transactional
 public class PanierServiceImpl implements IPanierService{
 
 	//List<LigneCommande> articles = new ArrayList<LigneCommande>();

@@ -4,10 +4,10 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
@@ -23,8 +23,8 @@ import fr.adaming.service.IProduitService;
 public class ProduitManagedBean  implements Serializable{
 	
 	//Transformation de l'association UML en Java
-	@EJB
-	private IProduitService pService; 
+	@ManagedProperty(value="#{proService}") 
+	private IProduitService proService; 
 	
 	// Déclaration des attributs
 	private Produit produit;
@@ -135,11 +135,15 @@ public class ProduitManagedBean  implements Serializable{
 		this.listeProMC = listeProMC;
 	}
 
+	public void setProService(IProduitService proService) {
+		this.proService = proService;
+	}
+
 	@PostConstruct //Cette annotation sert à dire que la méthode doit être exécutée après l'instanciation de l'objet
 	public void init(){
-		this.listePro = pService.recPro();
-		this.listeProMC=pService.recProByMC(mc);
-		this.listeProCat=pService.recProByCat(categorie);
+		this.listePro = proService.recPro();
+		this.listeProMC=proService.recProByMC(mc);
+		this.listeProCat=proService.recProByCat(categorie);
  	    maSession=(HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
 	this.admin= (Administrateur) maSession.getAttribute("adminSession");
 	}
@@ -153,13 +157,13 @@ public class ProduitManagedBean  implements Serializable{
 		}
 		
 		//appel de la méthode service
-		Produit pAjout=pService.ajoutPro(produit, categorie);
+		Produit pAjout=proService.ajoutPro(produit, categorie);
 		
 		if(pAjout.getId()!=0) { // pAjout ne sera JAMAIS nul
 			
 			
 			//Récup de la nouvelle liste
-			List<Produit> listePro=pService.recPro();
+			List<Produit> listePro=proService.recPro();
 			
 			//Mettre à jour la liste dans la session
 			maSession.setAttribute("pSession", listePro);
@@ -180,11 +184,11 @@ public class ProduitManagedBean  implements Serializable{
 	
 	public String modifPro() {
 		//appel de la méthode service
-		int verif=pService.modifPro(produit);
+		int verif=proService.modifPro(produit);
 		if(verif!=0) {
 			
 			//Récup de la nouvelle liste
-			List<Produit> listePro=pService.recPro();
+			List<Produit> listePro=proService.recPro();
 			
 			//Mettre à jour la liste dans la session
 			maSession.setAttribute("pSession", listePro);
@@ -199,16 +203,16 @@ public class ProduitManagedBean  implements Serializable{
 	}
 	
 	public void modifAuto() {
-		 this.produit=pService.recProById(produit); 
+		 this.produit=proService.recProById(produit); 
 	}
 	
 	public String supprPro() {
 		//appel de la méthode service
-		int verif=pService.supprPro(produit);
+		int verif=proService.supprPro(produit);
 		if(verif!=0) {
 			
 			//Récup de la nouvelle liste
-			List<Produit> listePro=pService.recPro();
+			List<Produit> listePro=proService.recPro();
 			
 			//Mettre à jour la liste dans la session
 			maSession.setAttribute("pSession", listePro);
@@ -224,7 +228,7 @@ public class ProduitManagedBean  implements Serializable{
 	
 	public String recProById() {
 		//appel de la méthode service
-		Produit pOut=pService.recProById(produit);
+		Produit pOut=proService.recProById(produit);
 		if(pOut!=null) {
 			this.produit=pOut; 
 			this.indice=true;
@@ -242,7 +246,7 @@ public class ProduitManagedBean  implements Serializable{
 	
 	public String recProByCat() {
 		//appel de la méthode service
-		List<Produit> lpOut=pService.recProByCat(categorie);
+		List<Produit> lpOut=proService.recProByCat(categorie);
 		if(lpOut!=null) {
 			this.listePro=lpOut; 
 			this.indice=true;
@@ -259,7 +263,7 @@ public class ProduitManagedBean  implements Serializable{
 	
 	public String recProByMC() {
 		//appel de la méthode service
-		List<Produit> lpOut=pService.recProByMC(mc);
+		List<Produit> lpOut=proService.recProByMC(mc);
 		if(lpOut!=null) {
 			this.listePro=lpOut; 
 			this.indice=true;

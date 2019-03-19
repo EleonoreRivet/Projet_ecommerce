@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+<h:head>
+<title>Accueil</title>
+</h:head>
+<h:body>
+<!-- CSS -->
+ 	<h:outputStylesheet library="css" name="monStyle.css"/>
+ 	
+ 	<!-- HEADER -->
+ 	
+ 	<ui:insert name="header"> 
+<ui:include src="/header.xhtml"/>
+</ui:insert>
+<br/><br/>
+
+
+
+<div class="ui-grid ui-grid-responsive">
+<div class="ui-grid-col-3 ui-g-12 ui-md-6 ui-lg-2">
+</div>
+ <!-- CENTRE -->
+  <div class="ui-grid-col-6 ui-g-12 ui-md-6 ui-lg-9">
+ <h:form> <p:breadCrumb>
+    <p:menuitem value="Categories" url="testclient.xhtml" />
+
+    <p:menuitem value="Panier" url="panier.xhtml" />
+ 
+</p:breadCrumb>
+  </h:form>
+  <h:form id="form">
+<!-- Recherche par Catégorie -->
+	<p:selectOneMenu id="categorie" value="#{pMB.categorie.id}"
+						style="width:125px">
+						<f:selectItem itemLabel="Selectionner une catégorie" itemValue="" />
+				    		<f:selectItems value="#{cMB.listeCat}" var="c"
+							itemValue="#{c.id}" itemLabel="#{c.nom}" />
+							 <p:ajax event="valueChange" listener="#{pMB.recProByCat}" update="form"/>
+					</p:selectOneMenu>
+					<p:spacer width="200" height="10" />
+	<!-- Recherche par mot clé -->
+					 <p:inputText value="#{pMB.mc}" placeholder="Que cherchez-vous?" style="width:400px; float:right;"> 
+					<p:ajax event="keyup" listener="#{pMB.recProByMC}" update="form"/></p:inputText>
+
+
+    <p:dataGrid var="p" value="#{pMB.listePro}" columns="3" layout="grid"
+        rows="12" paginator="true" id="p"
+        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+        rowsPerPageTemplate="6,12,16" reflow="true">
+         
+        <f:facet name="header">
+            Liste des produits
+        </f:facet>
+ 
+        <p:panel header="Référence n° #{p.id}" style="text-align:center">
+            <h:panelGrid columns="1" style="width:100%">
+                <h:graphicImage value="#{p.img}" style="width:50%"/>
+ 
+               <b><h:outputText value="#{p.designation}" /></b>
+                 <h:outputText value="#{p.description}" />
+                 <h:outputText value="#{p.prix} €" />
+                 
+                 <p:spinner id="basic" value="#{panMB.quantite}" />
+                 <p:commandLink value="Ajouter au panier"
+						action="#{panMB.ajoutProPan}" styleClass="bouton">
+						<f:setPropertyActionListener value="#{p.id}"
+								target="#{panMB.produit.id}" />
+						</p:commandLink>
+                 
+        
+            </h:panelGrid>
+        </p:panel>
+ 
+    </p:dataGrid>
+ 
+ 
+</h:form>
+<br/><br/>
+
+<center><a href="login.xhtml">Espace Administrateur</a></center>
+</div></div>
+</h:body>
+</html>

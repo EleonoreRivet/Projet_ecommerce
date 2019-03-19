@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Facelet Accueil</title>
+	
+	<script type="text/javascript">    
+
+	PrimeFaces.locales ['fr'] = {
+	    closeText: 'Fermer',
+	    prevText: 'Précédent',
+	    nextText: 'Suivant',
+	    monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre' ],
+	    monthNamesShort: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc' ],
+	    dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+	    dayNamesShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+	    dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+	    weekHeader: 'Semaine',
+	    firstDay: 1,
+	    isRTL: false,
+	    showMonthAfterYear: false,
+	    yearSuffix:'',
+	    timeOnlyTitle: 'Choisir l\'heure',
+	    timeText: 'Heure',
+	    hourText: 'Heures',
+	    minuteText: 'Minutes',
+	    secondText: 'Secondes',
+	    currentText: 'Maintenant',
+	    ampm: false,
+	    month: 'Mois',
+	    week: 'Semaine',
+	    day: 'Jour',
+	    allDayText: 'Toute la journée'
+	};
+
+</script>
+ 
+</h:head>
+
+<h:body>
+<!-- CSS -->
+ 	<h:outputStylesheet library="css" name="monStyle.css"/>
+ 	
+ 	<!-- HEADER -->
+ 	
+ 	<ui:insert name="header"> 
+<ui:include src="/header.xhtml"/>
+</ui:insert>
+<br/><br/>
+
+
+<!-- BAR MENU -->
+<div class="ui-grid ui-grid-responsive">
+   
+<div class="ui-grid-col-3 ui-g-12 ui-md-6 ui-lg-3">
+<div style="margin-left:10px">
+<ui:insert name="menuBar"> 
+<ui:include src="/menu.xhtml"/>
+</ui:insert>
+</div>
+	 </div>
+ <!-- CENTRE -->
+  <div class="ui-grid-col-6 ui-g-12 ui-md-6 ui-lg-6">
+
+<h1>Bienvenue sur votre espace Administrateur !</h1>
+<div class="ui-grid">
+ <!-- DEBUT BOX PROFIL -->
+ <div class="ui-grid-col-4">
+      <div class="box_resum" style="width:300px">
+   <h1 style="font-size:24px; margin-top:-30px">Les produits</h1>
+  <table><tr><td><img src="http://photos.gammvert.fr/v5/section/subsection_300/3607-plantes-vertes.jpg" class="imgprofil" /></td>
+  <td style="padding-left:8px"><a href="listepro">Voir la liste des produits</a><br/>
+  <a href="ajoutpro">Ajouter un produit</a><br/>
+  <a href="modifpro">Modifier un produit</a></td>
+  </tr></table>
+</div>
+  </div>
+			<!-- FIN BOX  PROFIL-->
+			 <!-- DEBUT BOX PROFIL -->
+			 <div class="ui-grid-col-4">
+      <div class="box_resum" style="margin-left:90px; width:400px">
+    <h1 style="font-size:24px; margin-top:-30px">Les produits</h1>
+  <table><tr><td><img src="https://cdn-css.tahitiheritage.pf/wp-content/uploads/2015/01/auti-rouge-fonce-1.jpg" class="imgprofil" /></td>
+  <td style="padding-left:8px"><a href="listecat">Voir la liste des catégories</a><br/>
+  <a href="ajoutcat">Ajouter une catégorie</a><br/>
+  <a href="modifcat">Modifier une catégorie</a></td>
+  </tr></table>
+</div>
+  </div>
+			<!-- FIN BOX  PROFIL-->
+		</div>
+	    </div>
+	    
+<div class="ui-grid-col-1 ui-g-12 ui-md-4 ui-lg-1">	    
+<div style="left:-300px">
+	  <p:calendar id="inline" value="#{calendarView.date1}" mode="inline" style="right:20px" />
+	    </div>
+	    </div>
+	    
+	    
+	    
+</div>
+</h:body>
+</html>

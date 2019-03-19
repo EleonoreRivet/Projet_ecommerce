@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+<h:head>
+	<title>Facelet ajout</title>
+</h:head>
+
+<h:body>
+<!-- CSS -->
+ 	<h:outputStylesheet library="css" name="monStyle.css"/>
+ 	
+ 	<!-- HEADER -->
+ 	
+ 	<ui:insert name="header"> 
+<ui:include src="/header.xhtml"/>
+</ui:insert>
+<br/><br/>
+
+
+<!-- BAR MENU -->
+<div class="ui-grid ui-grid-responsive">
+   
+<div class="ui-grid-col-3 ui-g-12 ui-md-6 ui-lg-3">
+<div style="margin-left:10px">
+<ui:insert name="menuBar"> 
+<ui:include src="/menu.xhtml"/>
+</ui:insert>
+</div>
+	 </div>
+ <!-- CENTRE -->
+  <div class="ui-grid-col-6 ui-g-12 ui-md-6 ui-lg-6">
+<img src="http://bestanimations.com/Animals/Birds/Parrots/animated-parrot-gif-2.gif" style="width:100px;margin-bottom:-90px;"/>
+<h1>Formulaire d'ajout de produit</h1>
+
+<div class="box_resum">
+     <p:messages />
+<h:form enctype="multipart/form-data">
+<h:panelGrid  columns="3" styleClass="panelGridCenter">
+	
+					<p:outputLabel value="Designation:" />
+					<h:inputText value="#{pMB.produit.designation}" required="true" />
+					<br />
+					<p:outputLabel value="Description:" />
+					<h:inputTextarea rows="3" cols="25" value="#{pMB.produit.description}" required="true" />
+					<br />
+					<p:outputLabel value="Categorie:" />
+					<p:selectOneMenu id="categorie" value="#{pMB.categorie.id}"
+						style="width:125px">
+						<f:selectItem itemLabel="Selectionner une catégorie" itemValue="" />
+						<f:selectItems value="#{sessionScope.cSession}" var="c"
+							itemValue="#{c.id}" itemLabel="#{c.id}.Catégorie #{c.nom}" />
+					</p:selectOneMenu>
+					<br />
+					<p:outputLabel value="Prix:" />
+					<h:inputText value="#{pMB.produit.prix}" />
+					<br />
+					<p:outputLabel value="Quantité:" />
+					<h:inputText value="#{pMB.produit.quantite}" />
+					<br />
+					<p:outputLabel value="Photo:" />
+					<p:fileUpload value="#{pMB.image}" mode="simple" skinSimple="true" />
+					<br />
+					<br />
+					<h:commandButton value="Ajouter un produit"
+						action="#{pMB.ajoutPro}" styleClass="bouton" />
+				</h:panelGrid>
+			</h:form>
+		
+	</div>
+			<!-- Fin Centre -->
+	    </div>
+	    
+	    </div>
+
+
+</h:body>
+</html>

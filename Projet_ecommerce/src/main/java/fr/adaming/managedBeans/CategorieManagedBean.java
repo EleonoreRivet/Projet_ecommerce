@@ -4,10 +4,10 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
@@ -23,8 +23,8 @@ import fr.adaming.service.ICategorieService;
 public class CategorieManagedBean implements Serializable{
 
 	//Transformation de l'association UML en Java
-	@EJB
-	private ICategorieService cService;
+	@ManagedProperty(value="#{catService}") 
+	private ICategorieService catService;
 	
 	// Déclaration des attributs
 	private Produit produit;
@@ -107,10 +107,15 @@ public class CategorieManagedBean implements Serializable{
 	public void setListeCat(List<Categorie> listeCat) {
 		this.listeCat = listeCat;
 	}
+	
+
+	public void setCatService(ICategorieService catService) {
+		this.catService = catService;
+	}
 
 	@PostConstruct //Cette annotation sert à dire que la méthode doit être exécutée après l'instanciation de l'objet
 	public void init(){
-		this.listeCat = cService.recCat();
+		this.listeCat = catService.recCat();
 		maSession=(HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
 		this.admin= (Administrateur) maSession.getAttribute("adminSession");
 	}
@@ -122,13 +127,13 @@ public class CategorieManagedBean implements Serializable{
 		}
 		
 		//appel de la méthode service
-		Categorie cAjout=cService.ajoutCat(categorie);
+		Categorie cAjout=catService.ajoutCat(categorie);
 		
 		if(cAjout.getId()!=0) { // pAjout ne sera JAMAIS nul
 			
 			
 			//Récup de la nouvelle liste
-			List<Categorie> listeCat=cService.recCat();
+			List<Categorie> listeCat=catService.recCat();
 			
 			//Mettre à jour la liste dans la session
 			maSession.setAttribute("cSession", listeCat);
@@ -145,11 +150,11 @@ public class CategorieManagedBean implements Serializable{
 	
 	public String modifCat() {
 		//appel de la méthode service
-		int verif= cService.modifCat(categorie);
+		int verif= catService.modifCat(categorie);
 		if(verif!=0) {
 			
 			//Récup de la nouvelle liste
-			List<Categorie> listeCat=cService.recCat();
+			List<Categorie> listeCat=catService.recCat();
 			
 			//Mettre à jour la liste dans la session
 			maSession.setAttribute("cSession", listeCat);
@@ -164,16 +169,16 @@ public class CategorieManagedBean implements Serializable{
 	}
 	
 	public void modifAuto() {
-		 this.categorie=cService.recCatById(categorie); 
+		 this.categorie=catService.recCatById(categorie); 
 	}
 	
 	public String supprCat() {
 		//appel de la méthode service
-		int verif=cService.supprCat(categorie);
+		int verif=catService.supprCat(categorie);
 		if(verif!=0) {
 			
 			//Récup de la nouvelle liste
-			List<Categorie> listeCat=cService.recCat();
+			List<Categorie> listeCat=catService.recCat();
 			
 			//Mettre à jour la liste dans la session
 			maSession.setAttribute("cSession", listeCat);
@@ -189,7 +194,7 @@ public class CategorieManagedBean implements Serializable{
 	
 	public String recCatById() {
 		//appel de la méthode service
-		Categorie cOut=cService.recCatById(categorie);
+		Categorie cOut=catService.recCatById(categorie);
 		if(cOut!=null) {
 			this.categorie=cOut; 
 			this.indice=true;

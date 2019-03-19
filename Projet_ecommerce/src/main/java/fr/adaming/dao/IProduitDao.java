@@ -2,12 +2,9 @@ package fr.adaming.dao;
 
 import java.util.List;
 
-import javax.ejb.Local;
-
 import fr.adaming.model.Categorie;
 import fr.adaming.model.Produit;
 
-@Local
 public interface IProduitDao {
 
 	public Produit ajoutPro(Produit p, Categorie c);

@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+	<title>Facelet Menu</title>
+</h:head>
+
+<h:body>
+ 	<h:outputStylesheet library="css" name="monStyle.css"/>
+ 	
+ 	
+ 	
+ 
+<h:form>
+ 
+    <p:panelMenu style="width:300px">
+        <p:submenu label="Accueil">
+            <p:menuitem value="Espace Admin" url="accueil.xhtml"/>
+              <p:menuitem value="Accueil Client" url="testclient.xhtml"/>          
+        </p:submenu>
+        <p:submenu label="Gestion des produits">
+                       <p:menuitem value="Liste des produits" url="listepro.xhtml"/>
+                       <p:menuitem value="Ajouter un produit" url="ajoutpro.xhtml"/>
+                       <p:menuitem value="Modifier un produit" url="modifpro.xhtml"/>      
+                   <p:menuitem value="Rechercher un produit" url="recherchepro.xhtml"/> 
+        </p:submenu>
+         <p:submenu label="Gestion des catégories">
+                       <p:menuitem value="Liste des catégories" url="listecat.xhtml"/>
+                       <p:menuitem value="Ajouter une catégorie" url="ajoutcat.xhtml"/>
+                       <p:menuitem value="Modifier une catégorie" url="modifcat.xhtml"/>     
+        </p:submenu>
+                     
+        <p:separator />
+    </p:panelMenu>
+</h:form>
+</h:body>
+</html>

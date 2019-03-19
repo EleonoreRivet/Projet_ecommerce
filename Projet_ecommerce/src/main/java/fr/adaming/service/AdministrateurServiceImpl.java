@@ -1,19 +1,27 @@
 package fr.adaming.service;
 
-import javax.ejb.EJB;
-import javax.ejb.Stateful;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import fr.adaming.dao.IAdministrateurDao;
 import fr.adaming.model.Administrateur;
 
-@Stateful
+@Service("adminService")
+@Transactional 
 public class AdministrateurServiceImpl implements IAdministrateurService{
-	@EJB
-	private IAdministrateurDao aDao;
+	@Autowired
+	private IAdministrateurDao adminDao;
+
+	//Setter
+	public void setAdminDao(IAdministrateurDao adminDao) {
+		this.adminDao = adminDao;
+	}
+
 
 	@Override
 	public Administrateur existe(Administrateur aIn) {
-		return aDao.existe(aIn);
+		return adminDao.existe(aIn);
 	}
 
 }

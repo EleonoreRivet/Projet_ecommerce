@@ -2,65 +2,67 @@ package fr.adaming.service;
 
 import java.util.List;
 
-import javax.ejb.EJB;
-import javax.ejb.Stateful;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import fr.adaming.dao.IProduitDao;
 import fr.adaming.model.Categorie;
 import fr.adaming.model.Produit;
 
-@Stateful
+@Service("proService")
+@Transactional
 public class ProduitServiceImpl implements IProduitService{
 	
 	//Transformation de l'asso UML en JAVA
-	@EJB
-	IProduitDao pDao;
+	@Autowired
+	IProduitDao produitDao;
+	
+	//Setter
+	public void setProduitDao(IProduitDao produitDao) {
+		this.produitDao = produitDao;
+	}
 
 	@Override
 	public int supprPro(Produit p) {
-		return pDao.supprPro(p);
+		return produitDao.supprPro(p);
 	}
 
 	@Override
 	public int modifPro(Produit p) {
-		return pDao.modifPro(p);
+		return produitDao.modifPro(p);
 	}
 
 	@Override
 	public List<Produit> recPro() {
-		return pDao.recPro();
+		return produitDao.recPro();
 	}
 
 	@Override
 	public Produit recProById(Produit p) {
-		Produit pOut= pDao.recProById(p);
-		if(pOut!=null){
-			return pOut;
-		}else{
-			return null;
-		}
+	return produitDao.recProById(p);
 	}
 
 	@Override
 	public Produit ajoutPro(Produit p, Categorie c) {
 		//Lier les objets en Java
 		p.setCategorie(c);
-		return pDao.ajoutPro(p, c);
+		return produitDao.ajoutPro(p, c);
 	}
 
 	@Override
 	public List<Produit> recProByMC(String mc) {
-		return pDao.recProByMC(mc);
+		return produitDao.recProByMC(mc);
 	}
 
 	@Override
 	public List<Produit> recProByCat(Categorie c) {
-		return pDao.recProByCat(c);
+		return produitDao.recProByCat(c);
 	}
 
 	@Override
 	public List<Produit> recProSelect() {
-		return pDao.recProSelect();
+		return produitDao.recProSelect();
 	}
 
 }

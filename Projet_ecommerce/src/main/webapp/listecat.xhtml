@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+	<title>Facelet Catégories</title>
+</h:head>
+
+<h:body>
+
+<!-- CSS -->
+ 	<h:outputStylesheet library="css" name="monStyle.css"/>
+ 	
+	<!-- HEADER -->
+ 	
+ 	<ui:insert name="header"> 
+<ui:include src="/header.xhtml"/>
+</ui:insert>
+<br/><br/>
+
+
+<!-- BAR MENU -->
+<div class="ui-grid ui-grid-responsive">
+   
+<div class="ui-grid-col-3 ui-g-12 ui-md-6 ui-lg-3">
+<div style="margin-left:10px">
+<ui:insert name="menuBar"> 
+<ui:include src="/menu.xhtml"/>
+</ui:insert>
+</div>
+	 </div>
+ <!-- CENTRE -->
+  <div class="ui-grid-col-9 ui-g-12 ui-md-9 ui-lg-9">
+<img src="https://www.animaatjes.nl/plaatjes/b/bomen/animaatjes-bomen-94872.gif" style="width:100px;margin-bottom:-85px;"/>
+<h1>Liste des catégories</h1>
+     <p:messages />
+	<h:form>
+											<p:confirmDialog global="true" showEffect="fade"
+								hideEffect="explode">
+								<p:commandButton value="Oui" styleClass="ui-confirmdialog-yes"
+									icon="ui-icon-check" />
+								<p:commandButton value="Non" styleClass="ui-confirmdialog-no"
+									icon="ui-icon-close" />
+							</p:confirmDialog>
+					<p:dataTable var="c" value="#{sessionScope.cSession}" id="idTab" reflow="true">
+					<p:column headerText="ID">
+						<h:outputText value="#{c.id}" />
+					</p:column>
+
+					<p:column headerText="Photo">
+						<h:graphicImage value="#{c.img}" style="width:150px"/>
+					</p:column>
+
+					<p:column headerText="Nom">
+						<h:outputText value="#{c.nom}" />
+					</p:column>
+
+					<p:column headerText="Description">
+						<h:outputText value="#{c.description}" />
+					</p:column>
+
+
+			<p:column headerText="Opérations">
+							<p:commandLink action="#{cMB.supprCat}">
+				<h:graphicImage library="images" name="Close.png" />
+				<p:confirm header="Confirmation" message="Etes-vous sûr ?" />
+					<f:setPropertyActionListener value="#{c.id}"
+						target="#{cMB.categorie.id}" />
+				</p:commandLink> | 
+				<p:commandLink action="modifcat">
+				<h:graphicImage library="images" name="Info.png" />
+					<f:setPropertyActionListener value="#{c}"
+						target="#{cMB.categorie}" />
+				</p:commandLink> 
+			</p:column>
+		</p:dataTable>
+	</h:form>
+
+
+
+			<!-- Fin Centre -->
+	    </div>
+	    
+	    </div>
+
+
+
+</h:body>
+</html>
