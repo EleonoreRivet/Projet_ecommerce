@@ -322,8 +322,9 @@ public class PanierManagedBean implements Serializable {
 			
 			messageMail = "Bonjour "+ comOut.getClient().getNom()+", \n Nous vous informons que votre commande, faite le "+ comOut.getDate()+", a été validée."
 					+"\n Veuillez trouver ci-joint le récapitulatif de votre commande: "
-					+ comOut.getListelico()
-					+ comOut; 
+					+ "\n"+ comOut.getListelico()
+					+ "\n"+ comOut
+					+ listeLico; 
 
 			int verifMail = 0;
 			
