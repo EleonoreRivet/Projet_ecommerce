@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+<h:head>
+<title>Panier</title>
+</h:head>
+<h:body>
+<!-- CSS -->
+ 	<h:outputStylesheet library="css" name="monStyle.css"/>
+ 	
+ 	<!-- HEADER -->
+ 	
+ 	<ui:insert name="header"> 
+<ui:include src="/header.xhtml"/>
+</ui:insert>
+<br/><br/>
+
+
+
+<div class="ui-grid ui-grid-responsive">
+<div class="ui-grid-col-3 ui-g-12 ui-md-6 ui-lg-2">
+</div>
+ <!-- CENTRE -->
+  <div class="ui-grid-col-6 ui-g-12 ui-md-6 ui-lg-9">
+<br/>
+<h:form>
+  <p:breadCrumb>
+    <p:menuitem value="Categories" url="testclient.xhtml" />
+
+    <p:menuitem value="Panier" url="panier.xhtml" />
+ 
+</p:breadCrumb>
+</h:form>
+<br/>
+<h1>Enregistrer vos informations</h1>
+  <div class="box_resum">
+     <p:messages />
+     
+ 
+							<h:form id="clForm">
+				<h:panelGrid columns="3" styleClass="panelGridCenter">
+					<p:outputLabel value="Nom:" />
+					<h:inputText value="#{panMB.client.nom}" required="true" />
+					<br />
+					<p:outputLabel value="Email:" />
+					<h:inputText value="#{panMB.client.email}" required="true">
+					<f:validator validatorId="valEmail" />
+					</h:inputText>
+					<br />
+					<p:outputLabel value="Telephone:" />
+					<h:inputText value="#{panMB.client.tel}" />
+					<br />
+					<p:outputLabel value="Numéro:" />
+					<h:inputText value="#{panMB.client.adresse.numero}"  required="true"/>
+					<br />
+					<p:outputLabel value="Nom de la rue:" />
+					<h:inputText value="#{panMB.client.adresse.rue}"  required="true"/>
+										<br />
+					<p:outputLabel value="Ville:" />
+					<h:inputText value="#{panMB.client.adresse.ville}"  required="true"/>
+										<br />
+					<p:outputLabel value="Code postal:" />
+					<h:inputText value="#{panMB.client.adresse.codePostal}"  required="true"/>
+						<br />
+					<h:commandButton value="Enregistrer la commande"
+						action="#{panMB.validerPanier}" styleClass="bouton" />
+				</h:panelGrid>
+			</h:form>    
+     
+     
+     
+     
+     
+     
+
+</div>
+     
+
+
+</div>
+</div>
+</h:body>
+</html>

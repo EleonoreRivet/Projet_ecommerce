@@ -5,82 +5,75 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-	
+
 <h:head>
-<title>Panier</title>
+	<title>Panier</title>
 </h:head>
 <h:body>
-<!-- CSS -->
- 	<h:outputStylesheet library="css" name="monStyle.css"/>
- 	
- 	<!-- HEADER -->
- 	
- 	<ui:insert name="header"> 
-<ui:include src="/header.xhtml"/>
-</ui:insert>
-<br/><br/>
+	<!-- CSS -->
+	<h:outputStylesheet library="css" name="monStyle.css" />
+
+	<!-- HEADER -->
+
+	<ui:insert name="header">
+		<ui:include src="/header.xhtml" />
+	</ui:insert>
+	<br />
+	<br />
 
 
 
-<div class="ui-grid ui-grid-responsive">
-<div class="ui-grid-col-3 ui-g-12 ui-md-6 ui-lg-2">
-</div>
- <!-- CENTRE -->
-  <div class="ui-grid-col-6 ui-g-12 ui-md-6 ui-lg-9">
-<br/>
-<h:form>
-  <p:breadCrumb>
-    <p:menuitem value="Categories" url="testclient.xhtml" />
+	<div class="ui-grid ui-grid-responsive">
+		<div class="ui-grid-col-3 ui-g-12 ui-md-6 ui-lg-2"></div>
+		<!-- CENTRE -->
+		<div class="ui-grid-col-6 ui-g-12 ui-md-6 ui-lg-9">
+			<br /> <br />
+			<h1>Votre panier</h1>
+			<h:form id="form">
 
-    <p:menuitem value="Panier" url="panier.xhtml" />
- 
-</p:breadCrumb>
-</h:form>
-<br/>
-<h1>Votre panier</h1>
+<div class="box_resum" style="text-align:center">
      <p:messages />
-					<h:form>
-				<p:dataTable var="li" value="#{sessionScope.lsession}" id="idTab">
-					<p:column headerText="ID">
-						<h:outputText value="#{li.produit.id}" />
-					</p:column>
+				<center><p:dataTable var="li" value="#{sessionScope.lsession}" id="idTab" style="width:60%;">
 
-					<p:column headerText="Photo">
-						<h:graphicImage value="#{li.produit.img}" style="width:50%"/>
-					</p:column>
+					<p:column>
+					<table><tr><td width="30%">
+						<h:graphicImage value="#{li.produit.img}" style="width:50%" />
+					</td><td>
+							<h:outputText value="Référence:" style="font-weight: bold" />
+								<h:outputText value="#{li.produit.id}" />
+								<br/>
 
-					<p:column headerText="Designation">
-						<h:outputText value="#{li.produit.designation}" />
-					</p:column>
+								<h:outputText value="Nom:" style="font-weight: bold" />
+								<h:outputText value="#{li.produit.designation} (#{li.produit.categorie.nom})" />
+								<br/>
+								<h:outputText value="Quantité:" style="font-weight: bold" />
+								<h:outputText value="#{li.quantite}" />
+								<br/>
 
-					<p:column headerText="Description">
-						<h:outputText value="#{li.produit.description}" />
+								<h:outputText value="Prix:" style="font-weight: bold" />
+								<h:outputText value="#{li.prix} €" />
+								<br/><br/>
+									<p:commandLink value="Supprimer" action="#{panMB.supprProPanier}"
+							update="idTab"  styleClass="bouton">
+							<f:setPropertyActionListener value="#{li.produit.id}"
+								target="#{panMB.produit.id}" />
+						</p:commandLink>
+						</td></tr></table>
 					</p:column>
+						
+				</p:dataTable></center>
+				<br/><br/>
+				<HR style="border-top: dotted 3px;color:green;"/>
+		Total = #{panMB.total} €
+		<br/><br/>
+		<p:commandLink value="Valider votre commande"
+					action="#{panMB.valider}" class="bouton" />
 
-					<p:column headerText="Catégorie">
-						<h:outputText value="#{li.produit.categorie.nom}" />
-					</p:column>
+</div>
+			</h:form>
 
-					<p:column headerText="Prix">
-						<h:outputText value="#{li.prix}" />
-					</p:column>
 
-					<p:column headerText="Quantité">
-						<h:outputText value="#{li.quantite}" />
-					</p:column>
-
-					<p:column headerText="Opérations">
-					<p:commandLink value="Supprimer" action="#{panMB.supprPanier}" update="idTab">
-					<f:setPropertyActionListener value="#{li.produit.id}"
-						target="#{panMB.produit.id}" />
-				</p:commandLink>
-					</p:column>
-				</p:dataTable>
-		<br></br>
-		
-	</h:form>
-	
-	
-	</div></div>
+		</div>
+	</div>
 </h:body>
 </html>

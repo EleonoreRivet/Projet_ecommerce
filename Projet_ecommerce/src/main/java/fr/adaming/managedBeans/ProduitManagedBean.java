@@ -28,6 +28,7 @@ public class ProduitManagedBean  implements Serializable{
 	
 	// Déclaration des attributs
 	private Produit produit;
+	private Produit selectedpro;
 	private Categorie categorie;
 	private Administrateur admin; 
 	private boolean indice;
@@ -117,6 +118,14 @@ public class ProduitManagedBean  implements Serializable{
 	}
 
 	
+	public Produit getSelectedpro() {
+		return selectedpro;
+	}
+
+	public void setSelectedpro(Produit selectedpro) {
+		this.selectedpro = selectedpro;
+	}
+
 	public String getMc() {
 		return mc;
 	}

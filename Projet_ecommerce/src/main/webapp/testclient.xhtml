@@ -6,85 +6,129 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-	
+
 <h:head>
-<title>Accueil</title>
+	<title>Accueil</title>
 </h:head>
 <h:body>
-<!-- CSS -->
- 	<h:outputStylesheet library="css" name="monStyle.css"/>
- 	
- 	<!-- HEADER -->
- 	
- 	<ui:insert name="header"> 
-<ui:include src="/header.xhtml"/>
-</ui:insert>
-<br/><br/>
+	<!-- CSS -->
+	<h:outputStylesheet library="css" name="monStyle.css" />
+
+	<!-- HEADER -->
+
+	<ui:insert name="header">
+		<ui:include src="/header.xhtml" />
+	</ui:insert>
+	<br />
+	<br />
 
 
 
-<div class="ui-grid ui-grid-responsive">
-<div class="ui-grid-col-3 ui-g-12 ui-md-6 ui-lg-2">
-</div>
- <!-- CENTRE -->
-  <div class="ui-grid-col-6 ui-g-12 ui-md-6 ui-lg-9">
- <h:form> <p:breadCrumb>
-    <p:menuitem value="Categories" url="testclient.xhtml" />
+	<div class="ui-grid ui-grid-responsive">
+		<div class="ui-grid-col-3 ui-g-12 ui-md-6 ui-lg-2"></div>
+		<!-- CENTRE -->
+		<div class="ui-grid-col-6 ui-g-12 ui-md-6 ui-lg-9">
 
-    <p:menuitem value="Panier" url="panier.xhtml" />
- 
-</p:breadCrumb>
-  </h:form>
-  <h:form id="form">
-<!-- Recherche par Catégorie -->
-	<p:selectOneMenu id="categorie" value="#{pMB.categorie.id}"
-						style="width:125px">
-						<f:selectItem itemLabel="Selectionner une catégorie" itemValue="" />
-				    		<f:selectItems value="#{cMB.listeCat}" var="c"
-							itemValue="#{c.id}" itemLabel="#{c.nom}" />
-							 <p:ajax event="valueChange" listener="#{pMB.recProByCat}" update="form"/>
-					</p:selectOneMenu>
-					<p:spacer width="200" height="10" />
-	<!-- Recherche par mot clé -->
-					 <p:inputText value="#{pMB.mc}" placeholder="Que cherchez-vous?" style="width:400px; float:right;"> 
-					<p:ajax event="keyup" listener="#{pMB.recProByMC}" update="form"/></p:inputText>
+			<h:form id="form">
+			<p:messages />
+				<!-- Recherche par Catégorie -->
+				<p:selectOneMenu id="categorie" value="#{pMB.categorie.id}"
+					style="width:125px">
+					<f:selectItem itemLabel="Selectionner une catégorie" itemValue="" />
+					<f:selectItems value="#{cMB.listeCat}" var="c" itemValue="#{c.id}"
+						itemLabel="#{c.nom}" />
+					<p:ajax event="valueChange" listener="#{pMB.recProByCat}"
+						update="form" />
+				</p:selectOneMenu>
+				<p:spacer width="200" height="10" />
+				<!-- Recherche par mot clé -->
+				<p:inputText value="#{pMB.mc}" placeholder="Que cherchez-vous?"
+					style="width:400px; float:right;">
+					<p:ajax event="keyup" listener="#{pMB.recProByMC}" update="form" />
+				</p:inputText>
 
 
-    <p:dataGrid var="p" value="#{pMB.listePro}" columns="3" layout="grid"
-        rows="12" paginator="true" id="p"
-        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-        rowsPerPageTemplate="6,12,16" reflow="true">
-         
-        <f:facet name="header">
+				<p:dataGrid var="p" value="#{pMB.listePro}" columns="3"
+					layout="grid" rows="12" paginator="true" id="p"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="6,12,16" reflow="true">
+
+					<f:facet name="header">
             Liste des produits
         </f:facet>
- 
-        <p:panel header="Référence n° #{p.id}" style="text-align:center">
-            <h:panelGrid columns="1" style="width:100%">
-                <h:graphicImage value="#{p.img}" style="width:50%"/>
- 
-               <h:outputText value="#{p.designation}" />
-                 <h:outputText value="#{p.description}" />
-                 <h:outputText value="#{p.prix} €" />
-                 
-                 <p:spinner id="basic" value="#{panMB.quantite}" />
-                 <p:commandLink value="Ajouter au panier"
-						action="#{panMB.ajoutProPan}" styleClass="bouton">
-						<f:setPropertyActionListener value="#{p}"
-								target="#{panMB.produit}" />
-						</p:commandLink>
-                 
-        
-            </h:panelGrid>
-        </p:panel>
- 
-    </p:dataGrid>
- 
- 
-</h:form>
-<br/><br/>
 
-<center><a href="login.xhtml">Espace Administrateur</a></center>
-</div></div>
+					<p:panel header="Référence n° #{p.id}" style="text-align:center">
+						<h:panelGrid columns="1" style="width:100%">
+							<h:graphicImage value="#{p.img}" style="height:200px" />
+
+							<b>#{p.designation}</b>
+							<div class="description">#{p.description}"</div>
+							<br/>
+							<h:outputText value="#{p.prix} €" />
+							<br/>
+							<p:commandLink update=":form:pDetail"
+								oncomplete="PF('pDialog').show()" title="Voir le produit"
+								styleClass="bouton">
+								<h:outputText value="Voir le produit" style="margin:0 auto;" />
+								<f:setPropertyActionListener value="#{p}"
+									target="#{panMB.produit}" />
+
+							</p:commandLink>
+
+
+
+						</h:panelGrid>
+					</p:panel>
+
+				</p:dataGrid>
+
+				<p:dialog header="Détails du produit" widgetVar="pDialog"
+					modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+					<p:outputPanel id="pDetail" style="text-align:center;">
+								<p:messages />
+								<h1 style="color:red;text-align:center"><h:messages/></h1>
+						<p:panelGrid columns="2" rendered="#{not empty panMB.produit}"
+							columnClasses="label,value" id="panel">
+							<f:facet name="header">
+								<h:graphicImage value="#{panMB.produit.img}" style="width:50%;" />
+							</f:facet>
+
+							<h:outputText value="Référence:" />
+							<h:outputText value="#{panMB.produit.id}" />
+
+							<h:outputText value="Nom" />
+							<h:outputText value="#{panMB.produit.designation}" />
+
+							<h:outputText value="Prix" />
+							<h:outputText value="#{panMB.produit.prix}" />
+							
+							<h:outputText value="Stock" />
+							<h:outputText value="#{panMB.produit.quantite}" />
+
+							<h:outputText value="Quantité" />
+							<p:spinner id="quantite" value="#{panMB.quantite}" size="5" min="1">
+							</p:spinner>
+
+
+						</p:panelGrid>
+
+						<p:commandLink value="Ajouter au panier"
+							action="#{panMB.ajoutProPanier}" styleClass="bouton">
+							<f:setPropertyActionListener value="#{panMB.produit}"
+								target="#{panMB.produit}" />
+
+						</p:commandLink>
+					</p:outputPanel>
+
+				</p:dialog>
+			</h:form>
+
+			<br /> <br />
+
+			<center>
+				<a href="login.xhtml">Espace Administrateur</a>
+			</center>
+		</div>
+	</div>
 </h:body>
 </html>

@@ -13,10 +13,12 @@ public class Mail {
 		// paramétrage de la boite mail
 		Properties prop = new Properties();
 		prop.put("mail.smtp.host", "smtp.gmail.com");
-		prop.put("mail.smtp.socketFactory.port", "465");
-		prop.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+		prop.put("mail.smtp.socketFactory.port","465");
+		prop.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
 		prop.put("mail.smtp.auth", "true");
 		prop.put("mail.smtp.port", "465");
+		prop.put("mail.smtp.starttls.enable", "true");
+
 		
 		Authenticator auth=new Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication(){

@@ -8,7 +8,7 @@ public class SendMailSSL {
 	
 	public int sendMail(String destinataire, String message) throws Exception{
 		int a=0;
-		Mail.send(votre_mail, votre_mdp, destinataire, "Résumé de la commande", message);
+		Mail.send("ele.rivet@gmail.com", "cheval06", destinataire, "Résumé de la commande", message);
 		a++;
 		return a;
 	}
