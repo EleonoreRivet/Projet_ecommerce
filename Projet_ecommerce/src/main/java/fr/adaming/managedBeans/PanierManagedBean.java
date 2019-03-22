@@ -56,6 +56,7 @@ public class PanierManagedBean implements Serializable {
 	private String messageMail;
 	private List<LigneCommande> listeLico;
 	private List<Produit> listePro;
+	private String promo; 
 
 	private HttpSession maSession;
 
@@ -182,6 +183,15 @@ public class PanierManagedBean implements Serializable {
 
 	
 	
+	
+	public String getPromo() {
+		return promo;
+	}
+
+	public void setPromo(String promo) {
+		this.promo = promo;
+	}
+
 	public double getTotal() {
 		return total;
 	}
@@ -309,7 +319,8 @@ public class PanierManagedBean implements Serializable {
 			// On envoie un mail 
 			
 			messageMail = "Bonjour "+ comOut.getClient().getNom()+", \n Nous vous informons que votre commande, faite le "+ comOut.getDate()+", a été validée."
-					+"\n Veuillez trouver ci-joint le récapitulatif de votre commande";
+					+"\n Veuillez trouver ci-joint le récapitulatif de votre commande: "
+					+ comOut.getListelico();
 
 			int verifMail = 0;
 			
@@ -344,6 +355,17 @@ public class PanierManagedBean implements Serializable {
 		}
 	}
 
+	
+	public String codePromo(){
+		if(this.promo=="35XC59"){
+			total = this.total - (20*this.total/100);
+			maSession.setAttribute("total", total);
+		}else{
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ce code promo n'est pas/plus valide!"));
+		}
+		return "panier";
+		
+	}
 	
 	
 	
