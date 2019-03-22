@@ -27,7 +27,7 @@ public class Mail {
 		};
 
 		// recupération de la session
-		Session session=Session.getDefaultInstance(prop, auth);
+		Session session=Session.getInstance(prop, auth);
 
 		try{
 			MimeMessage message = new MimeMessage(session);
