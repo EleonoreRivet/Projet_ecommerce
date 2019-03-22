@@ -324,7 +324,7 @@ public class PanierManagedBean implements Serializable {
 					+"\n Veuillez trouver ci-joint le récapitulatif de votre commande: "
 					+ "\n"+ comOut.getListelico()
 					+ "\n"+ comOut
-					+ listeLico; 
+					+ listeLico.toString(); 
 
 			int verifMail = 0;
 			
