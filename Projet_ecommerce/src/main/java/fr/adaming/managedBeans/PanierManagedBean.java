@@ -272,6 +272,8 @@ public class PanierManagedBean implements Serializable {
 					this.total = this.total - listeLico.get(i).getPrix();
 					this.listeLico.remove(i);
 					this.taille=listeLico.size();
+					maSession.setAttribute("taille", taille);
+					maSession.setAttribute("total", total);
 				}
 			}
 
@@ -320,7 +322,8 @@ public class PanierManagedBean implements Serializable {
 			
 			messageMail = "Bonjour "+ comOut.getClient().getNom()+", \n Nous vous informons que votre commande, faite le "+ comOut.getDate()+", a été validée."
 					+"\n Veuillez trouver ci-joint le récapitulatif de votre commande: "
-					+ comOut.getListelico();
+					+ comOut.getListelico()
+					+ comOut; 
 
 			int verifMail = 0;
 			
