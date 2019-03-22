@@ -26,6 +26,12 @@ public class Panier implements Serializable{
 	public void setListelico(List<LigneCommande> listelico) {
 		this.listelico = listelico;
 	}
+
+	//To String
+	@Override
+	public String toString() {
+		return "Panier [listelico=" + listelico + "]";
+	}
 	
 	
 

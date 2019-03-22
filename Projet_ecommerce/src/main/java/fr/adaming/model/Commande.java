@@ -83,12 +83,15 @@ public class Commande implements Serializable {
 	public void setListelico(List<LigneCommande> listelico) {
 		this.listelico = listelico;
 	}
-	
-	// To String
 
+	// To String
 	@Override
 	public String toString() {
 		return "Commande [id=" + id + ", date=" + date + ", client=" + client + ", listelico=" + listelico + "]";
 	}
+	
+	
+
+
 
 }
