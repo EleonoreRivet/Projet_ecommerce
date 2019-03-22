@@ -33,24 +33,24 @@
 
 <div class="box_resum" style="text-align:center">
      <p:messages />
-				<center><p:dataTable var="li" value="#{sessionScope.lsession}" id="idTab" style="width:60%;">
+				<center><p:dataTable var="li" value="#{sessionScope.lsession}" id="idTab" style="width:60%;"  emptyMessage="Votre panier est vide.">
 
 					<p:column>
 					<table><tr><td width="30%">
-						<h:graphicImage value="#{li.produit.img}" style="width:50%" />
+						<h:graphicImage value="#{li.produit.img}" style="width:100%" />
 					</td><td>
-							<h:outputText value="Référence:" style="font-weight: bold" />
+							<h:outputText value="Référence: " style="font-weight: bold" />
 								<h:outputText value="#{li.produit.id}" />
 								<br/>
 
-								<h:outputText value="Nom:" style="font-weight: bold" />
+								<h:outputText value="Nom: " style="font-weight: bold" />
 								<h:outputText value="#{li.produit.designation} (#{li.produit.categorie.nom})" />
 								<br/>
-								<h:outputText value="Quantité:" style="font-weight: bold" />
+								<h:outputText value="Quantité: " style="font-weight: bold" />
 								<h:outputText value="#{li.quantite}" />
 								<br/>
 
-								<h:outputText value="Prix:" style="font-weight: bold" />
+								<h:outputText value="Prix: " style="font-weight: bold" />
 								<h:outputText value="#{li.prix} €" />
 								<br/><br/>
 									<p:commandLink value="Supprimer" action="#{panMB.supprProPanier}"
@@ -61,10 +61,14 @@
 						</td></tr></table>
 					</p:column>
 						
-				</p:dataTable></center>
+				</p:dataTable>
 				<br/><br/>
-				<HR style="border-top: dotted 3px;color:green;"/>
-		Total = #{panMB.total} €
+				<HR style="border-top: dotted 3px;color:green;width:60%;"/>
+		<table><tr><td>Code promo</td>
+		
+		
+		<td><h:outputText value="#{panMB.total} €"/></td></tr></table>
+		</center>
 		<br/><br/>
 		<p:commandLink value="Valider votre commande"
 					action="#{panMB.valider}" class="bouton" />

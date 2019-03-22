@@ -308,7 +308,7 @@ public class PanierManagedBean implements Serializable {
 		
 			// On envoie un mail 
 			
-			messageMail = "Bonjour, \n Nous vous informons que votre commande, faite aujourd'hui, a été validée. ";
+			messageMail = "Bonjour, \n Nous vous informons que votre commande, faite le "+ comOut.getDate()+", a été validée. ";
 
 			int verifMail = 0;
 			
@@ -318,7 +318,7 @@ public class PanierManagedBean implements Serializable {
 				SendMailSSL sm = new SendMailSSL();
 				try {
 					// Vérif va servir à savoir si le mail est envoyé vu que la fonction sendmail retourne un int
-					verifMail = sm.sendMail("ele_rivet_06@hotmail.com", messageMail);
+					verifMail = sm.sendMail(client.getEmail(), messageMail);
 
 				} catch (Exception e) {
 
