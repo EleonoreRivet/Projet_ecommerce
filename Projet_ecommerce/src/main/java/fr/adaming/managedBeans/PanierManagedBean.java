@@ -46,6 +46,7 @@ public class PanierManagedBean implements Serializable {
 	private Client client;
 	private Panier panier;
 	private LigneCommande liCo;
+	private Commande commande; 
 	private Produit produit;
 	private Adresse adresse;
 	private int quantite;
@@ -184,6 +185,14 @@ public class PanierManagedBean implements Serializable {
 	
 	
 	
+	public Commande getCommande() {
+		return commande;
+	}
+
+	public void setCommande(Commande commande) {
+		this.commande = commande;
+	}
+
 	public String getPromo() {
 		return promo;
 	}
@@ -308,27 +317,27 @@ public class PanierManagedBean implements Serializable {
 	
 		
 		// On enregistre la commande avec le panier, le client et son adresse
-		Commande comOut = comService.enregistrerCom(panier, client, adresse);
-		comOut.setListelico(listeLico);
+		this.commande = comService.enregistrerCom(panier, client, adresse);
+		this.commande.setListelico(listeLico);
 		client.setAdresse(adresse);
-		comOut.setClient(client);
+		this.commande.setClient(client);
 		
 		for (int i = 0; i < listeLico.size(); i++) {
 			LigneCommande lcIn = this.listeLico.get(i);
-			lcIn.setCommande(comOut);
+			lcIn.setCommande(this.commande);
 	}
 		
 			// On envoie un mail 
 			
-			messageMail = "Bonjour "+ comOut.getClient().getNom()+", \n Nous vous informons que votre commande, faite le "+ comOut.getDate()+", a été validée."
+			messageMail = "Bonjour "+ this.commande.getClient().getNom()+", \n Nous vous informons que votre commande, faite le "+ this.commande.getDate()+", a été validée."
 					+"\n Veuillez trouver ci-joint le récapitulatif de votre commande: "
-					+ "\n"+ comOut.getListelico()
-					+ "\n"+ comOut
+					+ "\n"+ this.commande.getListelico()
+					+ "\n"+ this.commande
 					+ listeLico.toString(); 
 
 			int verifMail = 0;
 			
-			if (comOut.getId() != 0) {
+			if (this.commande.getId() != 0) {
 				// Ici on envoie concrètement le mail en renseignant le destinataire et le message
 				// On oublie pas de surround la fonction pour ne pas faire planter l'appli si ca crash
 				SendMailSSL sm = new SendMailSSL();
@@ -346,7 +355,7 @@ public class PanierManagedBean implements Serializable {
 							this.listeLico.remove(i);
 					}
 					
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("La commande est validée"));
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Merci, la commande a été validée, un récapitulatif de la commande vous a été envoyé par email."));
 					return "testclient";
 				} else {
 					// ajouter le message d'erreur

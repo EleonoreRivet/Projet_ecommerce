@@ -83,8 +83,7 @@ public class LigneCommande implements Serializable{
 	//To String
 	@Override
 	public String toString() {
-		return "LigneCommande [idLigne=" + idLigne + ", quantite=" + quantite + ", prix=" + prix + ", produit="
-				+ produit + "]";
+		return quantite+" "+ produit.getDesignation()+" au prix de "+prix+" euros.";
 	}
 
 

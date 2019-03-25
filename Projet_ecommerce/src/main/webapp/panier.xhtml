@@ -15,8 +15,8 @@
 
 	<!-- HEADER -->
 
-	<ui:insert name="header">
-		<ui:include src="/header.xhtml" />
+	<ui:insert name="header2">
+		<ui:include src="/header2.xhtml" />
 	</ui:insert>
 	<br />
 	<br />
@@ -64,18 +64,10 @@
 				</p:dataTable>
 				<br/><br/>
 				<HR style="border-top: dotted 3px;color:green;width:60%;"/>
-		<table id="idTab1"><tr>
-		<td>
-		Code promo<br/>
-		<h:inputText value="#{panMB.promo}"/>
-			<p:commandLink value="Utiliser" action="#{panMB.codePromo}" styleClass="bouton">
-							<f:setPropertyActionListener value="#{panMB.promo}"
-								target="#{panMB.promo}" />
-						</p:commandLink>
-		</td>
+
 		
-		
-		<td><h:outputText value="#{panMB.total} €"/></td></tr></table>
+		<div style="font-size:24px;"><b>Votre total</b><br/>
+		<h:outputText value="#{panMB.total} €"/></div>
 		</center>
 		<br/><br/>
 		<p:commandLink value="Valider votre commande"
